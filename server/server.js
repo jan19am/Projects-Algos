@@ -1,0 +1,28 @@
+const express = require("express");
+const app = express();
+const port = 8000;
+const cors = require('cors');
+const cookieParser = require('cookie-parser');
+
+
+// Middleware for formatting and allowing POST requests
+app.use( express.json() );
+app.use( express.urlencoded({ extended: true}) );
+
+app.use(
+    cors({
+        credentials: true,
+        origin: "http://localhost:3000",
+    }),
+);
+app.use(cookieParser());
+
+// import Routes
+require('dotenv').config();
+require("./config/mongoose.config");
+require('./routes/user.routes')(app);
+require('./routes/idea.routes')(app);
+
+
+
+app.listen( port, () => console.log(`Listening on port: ${ port }`));
